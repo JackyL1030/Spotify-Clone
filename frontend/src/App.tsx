@@ -1,10 +1,19 @@
+import { Show, SignInButton, UserButton } from '@clerk/react';
 import { Button } from './components/ui/button';
 
 function App() {
   return (
     <>
-      <h1 className="text-red-500 text-5xl">Hello</h1>
-      <Button variant={'outline'}>This is a button</Button>
+      <header>
+        <Show when="signed-out">
+          <SignInButton>
+            <Button>Sign In</Button>
+          </SignInButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
+      </header>
     </>
   );
 }
