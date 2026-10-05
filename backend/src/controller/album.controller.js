@@ -17,7 +17,7 @@ export const getAlbumById = async (req, res, next) => {
     if (!album) {
       return res.status(404).json({ message: 'Album not found' });
     }
-    res.status(20).json(album);
+    res.status(200).json(album);
   } catch (error) {
     next(error);
   }
