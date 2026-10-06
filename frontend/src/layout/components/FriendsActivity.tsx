@@ -94,7 +94,7 @@ const LoginPrompt = () => (
       </div>
     </div>
 
-    <div className="space-y-2 max-w-[250px]">
+    <div className="space-y-2 max-w-62.5">
       <h3 className="text-lg font-semibold text-white">
         See What Friends Are Playing
       </h3>
