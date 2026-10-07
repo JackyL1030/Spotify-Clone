@@ -52,7 +52,45 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     });
   },
 
-  togglePlay: () => {},
-  playNext: () => {},
-  playPrevious: () => {},
+  togglePlay: () => {
+    const willStartPlaying = !get().isPlaying;
+
+    set({ isPlaying: willStartPlaying });
+  },
+
+  playNext: () => {
+    const { currentIndex, queue } = get();
+    const nextIndex = currentIndex + 1;
+
+    //if there is a next song to play
+    if (nextIndex < queue.length) {
+      const nextSong = queue[nextIndex];
+      set({
+        currentSong: nextSong,
+        currentIndex: nextIndex,
+        isPlaying: true,
+      });
+    } else {
+      // no next song
+      set({ isPlaying: false });
+    }
+  },
+
+  playPrevious: () => {
+    const { currentIndex, queue } = get();
+    const prevIndex = currentIndex - 1;
+
+    // there's a prev song
+    if (prevIndex >= 0) {
+      const prevSong = queue[prevIndex];
+      set({
+        currentSong: prevSong,
+        currentIndex: prevIndex,
+        isPlaying: true,
+      });
+    } else {
+      // no prev song
+      set({ isPlaying: false });
+    }
+  },
 }));
