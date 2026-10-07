@@ -1,16 +1,27 @@
-export const protectRoute = async (req, res, next) => {
-  if (!req.auth.userId) {
-    return res
-      .status(401)
-      .json({ message: 'Unauthorized - you must be logged in' });
-  }
+import { clerkClient } from '@clerk/express';
 
-  next();
+export const protectRoute = async (req, res, next) => {
+  try {
+    const auth = await req.auth();
+
+    if (!auth.userId) {
+      return res
+        .status(401)
+        .json({ message: 'Unauthorized - you must be logged in' });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const requireAdmin = async (req, res, next) => {
   try {
-    const currentUser = await ClerkClient.users.getUser(req.auth.userId);
+    const auth = await req.auth();
+
+    const currentUser = await clerkClient.users.getUser(auth.userId);
+
     const isAdmin =
       process.env.ADMIN_EMAIL === currentUser.primaryEmailAddress?.emailAddress;
 
@@ -22,6 +33,6 @@ export const requireAdmin = async (req, res, next) => {
 
     next();
   } catch (error) {
-    
+    next(error);
   }
 };
