@@ -2,6 +2,7 @@ import Topbar from '@/components/Topbar';
 import { useEffect } from 'react';
 import { ScrollArea } from '../../components/ui/scroll-area';
 import { useMusicStore } from '../../stores/useMusicStore';
+import { usePlayerStore } from '../../stores/usePlayerStore';
 import FeaturedSection from '../components/FeaturedSection';
 import SectionGrid from '../components/SectionGrid';
 
@@ -16,13 +17,24 @@ const HomePage = () => {
     trendingSongs,
   } = useMusicStore();
 
+  const { initializeQueue } = usePlayerStore();
+
   useEffect(() => {
     fetchFeaturedSongs();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
   }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]);
 
-  console.log({ isLoading, madeForYouSongs, featuredSongs, trendingSongs });
+  useEffect(() => {
+    if (
+      madeForYouSongs.length > 0 &&
+      featuredSongs.length > 0 &&
+      trendingSongs.length > 0
+    ) {
+      const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
+      initializeQueue(allSongs);
+    }
+  }, [initializeQueue]);
 
   return (
     <main className="rounded-md overflow-hidden h-full bg-linear-to-b from-zinc-800 to-zinc-900">
