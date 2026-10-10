@@ -19,7 +19,7 @@ export const getStats = async (req, res, next) => {
           },
           {
             $group: {
-              _id: $artist,
+              _id: '$artist',
             },
           },
           {

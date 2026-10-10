@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../../../components/ui/card';
+import SongsTable from './SongsTable';
 
 const SongsTabContent = () => {
   return (
@@ -23,7 +24,9 @@ const SongsTabContent = () => {
           <Button>+</Button>
         </div>
       </CardHeader>
-      <CardContent>Songs table</CardContent>
+      <CardContent>
+        <SongsTable />
+      </CardContent>
     </Card>
   );
 };
