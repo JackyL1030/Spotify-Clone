@@ -11,7 +11,7 @@ const uploadToCloudinary = async (file) => {
     return result.secure_url;
   } catch (error) {
     console.log('Error in uploadToCloudinary', error);
-    throw new Error('Error uplading to cloudinary');
+    throw new Error('Error uploading to cloudinary');
   }
 };
 
@@ -24,8 +24,8 @@ export const createSong = async (req, res, next) => {
     const audioFile = req.files.audioFile;
     const imageFile = req.files.imageFile;
 
-    const audioUrl = await uploadToCloundinary(audioFile);
-    const imageUrl = await uploadToCloundinary(imageFile);
+    const audioUrl = await uploadToCloudinary(audioFile);
+    const imageUrl = await uploadToCloudinary(imageFile);
 
     const song = new Song({
       title,
@@ -107,4 +107,3 @@ export const deleteAlbum = async (req, res, next) => {
 export const checkAdmin = async (req, res, next) => {
   res.status(200).json({ admin: true });
 };
- 
