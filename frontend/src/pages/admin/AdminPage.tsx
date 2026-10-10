@@ -7,6 +7,7 @@ import {
   TabsTrigger,
 } from '../../components/ui/tabs';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { useMusicStore } from '../../stores/useMusicStore';
 import AlbumsTabContent from './components/AlbumsTabContent';
 import DashboardStats from './components/DashboardStats';
 import Header from './components/Header';
@@ -15,11 +16,12 @@ import SongsTabContent from './components/SongsTabContent';
 const AdminPage = () => {
   const { isAdmin, isLoading } = useAuthStore();
 
+  const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
   useEffect(() => {
-    // fetchAlbums()
-    // fetchSongs()
-    // fetchStats ()
-  });
+    fetchAlbums();
+    fetchSongs();
+    fetchStats();
+  }, [fetchAlbums, fetchSongs, fetchStats]);
 
   if (!isAdmin && !isLoading) return <div>Unauthorized</div>;
 
