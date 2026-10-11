@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useChatStore } from '@/stores/useChatStore';
 
-const UsersList = () => {
+const UsersLists = () => {
   const { users, selectedUser, isLoading, setSelectedUser, onlineUsers } =
     useChatStore();
 
@@ -50,4 +50,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default UsersLists;

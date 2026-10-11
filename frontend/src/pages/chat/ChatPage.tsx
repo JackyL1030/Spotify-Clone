@@ -1,12 +1,12 @@
+import Topbar from '@/components/Topbar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useChatStore } from '@/stores/useChatStore';
 import { useUser } from '@clerk/clerk-react';
 import { useEffect } from 'react';
-import Topbar from '../../../components/Topbar';
-import { Avatar, AvatarImage } from '../../../components/ui/avatar';
-import { ScrollArea } from '../../../components/ui/scroll-area';
-import UsersList from '../Users.List';
-import ChatHeader from './ChatHeader';
-import MessageInput from './MessageInput';
+import ChatHeader from './components/ChatHeader';
+import MessageInput from './components/MessageInput';
+import UsersLists from './components/UsersLists';
 
 const formatTime = (date: string) => {
   return new Date(date).toLocaleTimeString('en-US', {
@@ -35,7 +35,7 @@ const ChatPage = () => {
       <Topbar />
 
       <div className="grid lg:grid-cols-[300px_1fr] grid-cols-[80px_1fr] h-[calc(100vh-180px)]">
-        <UsersList />
+        <UsersLists />
 
         {/* chat message */}
         <div className="flex flex-col h-full">
