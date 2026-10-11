@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import { createServer } from 'http';
+import cron from 'node-cron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -52,6 +53,22 @@ app.use(
     },
   }),
 );
+
+//cron jobs
+const tempDir = path.join(process.cwd(), 'tmp');
+cron.schedule('0 * * * *', () => {
+  if (fs.existsSync(tempDir)) {
+    fs.readdir(tempDir, (err, files) => {
+      if (err) {
+        console.log('error', err);
+        return;
+      }
+      for (const file of files) {
+        fs.unlink(path.join(tempDir, file), (err) => {});
+      }
+    });
+  }
+});
 
 // API routes.
 app.use('/api/users', userRoutes);
