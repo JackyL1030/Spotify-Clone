@@ -61,6 +61,13 @@ app.use('/api/songs', songRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/api/stats', statRoutes);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../fontend', 'dist', 'index.html'));
+  });
+}
+
 // Error-handling middleware.
 app.use((err, req, res, next) => {
   console.error(err);
