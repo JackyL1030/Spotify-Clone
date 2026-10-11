@@ -5,7 +5,7 @@ import MainLayout from './layout/MainLayout';
 import AdminPage from './pages/admin/AdminPage';
 import AlbumPage from './pages/album/AlbumPage';
 import AuthCallbackPage from './pages/auth-callback/AuthCallbackPage';
-import ChatPage from './pages/chat/ChatPage';
+import ChatPage from './pages/chat/components/UsersList';
 import HomePage from './pages/home/HomePage';
 
 function App() {
