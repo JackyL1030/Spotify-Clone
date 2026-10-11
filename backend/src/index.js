@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 
 import { connectDB } from './lib/db.js';
 
+import { createServer } from 'http';
 import adminRoutes from './routes/admin.route.js';
 import albumRoutes from './routes/album.route.js';
 import authRoutes from './routes/auth.route.js';
@@ -22,6 +23,9 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+
+const httpServer = createServer(app);
+initializeSocket(httpServer);
 
 app.use(
   cors({
@@ -61,7 +65,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   connectDB();
 });
