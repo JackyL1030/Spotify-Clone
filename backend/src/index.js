@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import fs from 'fs';
 import { createServer } from 'http';
 import cron from 'node-cron';
 import path from 'path';
@@ -34,7 +35,7 @@ initializeSocket(httpServer);
 // Middleware.
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
     credentials: true,
   }),
 );
@@ -54,17 +55,23 @@ app.use(
   }),
 );
 
-//cron jobs
+// Cron job: clean up temporary files every hour.
 const tempDir = path.join(process.cwd(), 'tmp');
+
 cron.schedule('0 * * * *', () => {
   if (fs.existsSync(tempDir)) {
     fs.readdir(tempDir, (err, files) => {
       if (err) {
-        console.log('error', err);
+        console.error('Error reading temporary directory:', err);
         return;
       }
+
       for (const file of files) {
-        fs.unlink(path.join(tempDir, file), (err) => {});
+        fs.unlink(path.join(tempDir, file), (err) => {
+          if (err) {
+            console.error(`Error deleting temporary file ${file}:`, err);
+          }
+        });
       }
     });
   }
@@ -78,10 +85,19 @@ app.use('/api/songs', songRoutes);
 app.use('/api/albums', albumRoutes);
 app.use('/api/stats', statRoutes);
 
+// Serve the React frontend in production.
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../fontend', 'dist', 'index.html'));
+  const frontendPath = path.resolve(__dirname, '../frontend/dist');
+
+  app.use(express.static(frontendPath));
+
+  // Express 5-compatible wildcard route.
+  app.get('/{*path}', (req, res, next) => {
+    res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+      if (err) {
+        next(err);
+      }
+    });
   });
 }
 
@@ -89,7 +105,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use((err, req, res, next) => {
   console.error(err);
 
-  res.status(500).json({
+  res.status(err.status || err.statusCode || 500).json({
     message:
       process.env.NODE_ENV === 'production'
         ? 'Internal server error'
