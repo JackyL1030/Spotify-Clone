@@ -87,7 +87,7 @@ app.use('/api/stats', statRoutes);
 
 // Serve the React frontend in production.
 if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.resolve(__dirname, '../frontend/dist');
+  const frontendPath = path.resolve(__dirname, '../../frontend/dist');
 
   app.use(express.static(frontendPath));
 
