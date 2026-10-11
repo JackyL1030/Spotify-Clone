@@ -6,7 +6,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AudioPlayer } from './components/AudioPlayer';
-import { FriendsActivity } from './components/FriendsActivity';
+import FriendsActivity from './components/FriendsActivity';
 import LeftSidebar from './components/LeftSidebar';
 import PlaybackControls from './components/PlaybackControls';
 

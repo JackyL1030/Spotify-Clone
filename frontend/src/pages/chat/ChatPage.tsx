@@ -6,7 +6,7 @@ import { useUser } from '@clerk/clerk-react';
 import { useEffect } from 'react';
 import ChatHeader from './components/ChatHeader';
 import MessageInput from './components/MessageInput';
-import UsersLists from './components/UsersLists';
+import UsersList from './components/UsersList';
 
 const formatTime = (date: string) => {
   return new Date(date).toLocaleTimeString('en-US', {
@@ -35,7 +35,7 @@ const ChatPage = () => {
       <Topbar />
 
       <div className="grid lg:grid-cols-[300px_1fr] grid-cols-[80px_1fr] h-[calc(100vh-180px)]">
-        <UsersLists />
+        <UsersList />
 
         {/* chat message */}
         <div className="flex flex-col h-full">
