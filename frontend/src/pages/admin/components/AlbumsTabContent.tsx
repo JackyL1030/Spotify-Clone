@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Library } from 'lucide-react';
-import AddAlbumDialog from '../AddAlbumDialog';
+import AddAlbumDialog from './AddAlbumDialog';
 import AlbumsTable from './AlbumsTable';
 
 const AlbumsTabContent = () => {
